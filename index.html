@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090b0f" />
+    <title>TIME KILL — Combat Test</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="overlay" class="overlay">
+        <div class="title-lockup">
+          <div class="eyebrow">COMBAT PROTOTYPE // 001</div>
+          <h1>TIME<span>KILL</span></h1>
+          <p>TIME DOESN'T HEAL. IT HUNTS.</p>
+        </div>
+        <div class="briefing">
+          <div><b>WASD</b><span>MOVE</span></div>
+          <div><b>SHIFT</b><span>SPRINT</span></div>
+          <div><b>SPACE</b><span>JUMP</span></div>
+          <div><b>Q</b><span>DASH</span></div>
+          <div><b>MOUSE</b><span>AIM</span></div>
+          <div><b>LEFT CLICK</b><span>FIRE</span></div>
+          <div><b>R</b><span>RELOAD</span></div>
+        </div>
+        <button id="start-button">ENTER THE ARENA <span>↗</span></button>
+        <div class="footnote">NO STORY. NO EXCUSES. JUST SURVIVE.</div>
+      </div>
+
+      <div id="hud" class="hud hidden">
+        <div class="hud-top">
+          <div class="brand">TIME<span>KILL</span><small>COMBAT TEST</small></div>
+          <div class="wave-box"><small>WAVE</small><strong id="wave">01</strong></div>
+          <div class="enemies-box"><small>TARGETS</small><strong id="enemy-count">00</strong></div>
+        </div>
+        <div class="crosshair"><i></i><i></i><i></i><i></i><b></b></div>
+        <div id="hit-marker" class="hit-marker">×</div>
+        <div id="damage-flash" class="damage-flash"></div>
+        <div class="hud-bottom">
+          <div class="stat-block health-block"><small>INTEGRITY</small><div class="meter"><i id="health-meter"></i></div><strong><span id="health">100</span><em> / 100</em></strong></div>
+          <div class="score-block"><small>ELIMINATIONS</small><strong id="kills">000</strong><small class="score-label">SCORE <b id="score">000000</b></small></div>
+          <div class="weapon-block">
+            <div class="ammo-readout"><span class="ammo-label">AMMO</span><strong id="ammo-count">07 <i>/ 07</i></strong></div>
+            <small id="reload-status" class="reload-status">R RELOAD</small>
+          </div>
+        </div>
+        <div id="center-message" class="center-message"></div>
+        <div id="dash-status" class="dash-status">DASH <span>READY</span></div>
+        <div id="pause-hint">ESC TO RELEASE MOUSE</div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+:root {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #f0f2f4;
+  background: #090b0f;
+  font-synthesis: none;
+}
+* { box-sizing: border-box; }
+html, body, #app { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+body { background: #090b0f; }
+canvas { display: block; position: fixed; inset: 0; }
+.hidden { display: none !important; }
+.overlay {
+  position: fixed; z-index: 10; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 30px;
+  background: radial-gradient(ellipse at 50% 42%, rgba(10,14,20,.96), rgba(5,7,10,.985) 72%);
+  backdrop-filter: blur(7px);
+  text-align: center; padding: 24px;
+}
+.title-lockup { margin-bottom: 3px; }
+.eyebrow { color: #ff5a36; letter-spacing: .25em; font-size: 10px; margin-bottom: 12px; }
+h1 { font: 900 clamp(64px, 12vw, 132px)/.8 'Arial Narrow', Impact, sans-serif; letter-spacing: -.045em; margin: 0; }
+h1 span { color: #ff5636; }
+.title-lockup p { color: #8b929e; font-size: 10px; letter-spacing: .24em; margin-top: 22px; }
+.briefing { display: grid; grid-template-columns: repeat(4, minmax(90px, 130px)); gap: 9px; }
+.briefing div { border: 1px solid #2a303a; background: rgba(17,21,28,.75); padding: 12px 8px 10px; }
+.briefing b, .briefing span { display: block; }
+.briefing b { font-size: 11px; color: #e7e9ed; margin-bottom: 7px; }
+.briefing span { font-size: 8px; color: #858d99; letter-spacing: .12em; }
+#start-button {
+  cursor: pointer; border: 0; background: #ff5636; color: #0b0d10;
+  font: 800 14px 'Arial Narrow', Impact, sans-serif; letter-spacing: .12em;
+  padding: 16px 26px; min-width: 245px; transition: transform .15s, background .15s;
+}
+#start-button span { margin-left: 24px; font-size: 18px; }
+#start-button:hover { background: #ff795e; transform: translateY(-2px); }
+.overlay-status { color: #8d96a3; font-size: 9px; letter-spacing: .16em; margin-top: -14px; }
+.overlay-status i { color: #ff5636; font-style: normal; padding: 0 6px; }
+.footnote { color: #4f5661; font-size: 8px; letter-spacing: .2em; }
+.hud { position: fixed; z-index: 5; inset: 0; pointer-events: none; user-select: none; }
+.hud-top { display: flex; align-items: flex-start; gap: 26px; padding: 28px 32px; }
+.brand { font: 900 25px/.85 'Arial Narrow', Impact, sans-serif; letter-spacing: -.03em; }
+.brand span { color: #ff5636; }
+.brand small { display: block; color: #7e8793; font: 8px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .18em; margin-top: 8px; }
+.wave-box, .enemies-box { border-left: 1px solid #3a414b; padding-left: 14px; }
+.wave-box small, .enemies-box small, .stat-block small, .score-block small, .weapon-block small { display: block; color: #9099a5; font-size: 8px; letter-spacing: .17em; margin-bottom: 5px; }
+.wave-box strong, .enemies-box strong { font: 700 25px 'Barlow Condensed', sans-serif; }
+.enemies-box strong { color: #ff6345; }
+.crosshair { position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; transform: translate(-50%,-50%); }
+.crosshair i { position: absolute; display: block; background: rgba(255,255,255,.85); }
+.crosshair i:nth-child(1) { width: 5px; height: 1px; left: 0; top: 9px; }
+.crosshair i:nth-child(2) { width: 5px; height: 1px; right: 0; top: 9px; }
+.crosshair i:nth-child(3) { height: 5px; width: 1px; top: 0; left: 9px; }
+.crosshair i:nth-child(4) { height: 5px; width: 1px; bottom: 0; left: 9px; }
+.crosshair b { position: absolute; width: 2px; height: 2px; background: #ff5636; top: 9px; left: 9px; }
+.hit-marker { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(.6); color: #ff5636; font: 700 34px sans-serif; opacity: 0; transition: opacity .07s, transform .07s; }
+.hit-marker.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+.hud-bottom { position: absolute; bottom: 28px; left: 32px; right: 32px; display: flex; align-items: flex-end; justify-content: space-between; }
+.health-block { width: 190px; }
+.meter { height: 4px; background: #303640; width: 100%; margin: 8px 0 7px; }
+.meter i { display: block; height: 100%; width: 100%; background: #ff5636; transition: width .12s; }
+.stat-block strong { font: 700 31px 'Barlow Condensed', sans-serif; }
+.stat-block em { font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; color: #747d89; font-style: normal; }
+.score-block { text-align: center; }
+.score-block > strong { font: 700 35px 'Barlow Condensed', sans-serif; }
+.score-block .score-label { margin-top: 5px; }
+.score-label b { color: #f1f3f6; font-weight: 500; }
+.weapon-block { text-align: right; min-width: 180px; }
+.weapon-block strong { font: 800 31px 'Barlow Condensed', sans-serif; }
+.weapon-block strong span { color: #ff5636; font: 14px ui-monospace, SFMono-Regular, Menlo, monospace; margin-left: 8px; }
+.weapon-line { margin: 7px 0 0 auto; height: 3px; width: 80px; background: #ff5636; }
+.damage-flash { position: absolute; inset: 0; opacity: 0; background: radial-gradient(ellipse, transparent 35%, rgba(255,40,20,.48)); transition: opacity .12s; }
+.damage-flash.show { opacity: 1; }
+.center-message { position: absolute; top: 31%; left: 50%; transform: translateX(-50%); font: 800 32px 'Barlow Condensed', sans-serif; color: #ff6345; letter-spacing: .08em; text-shadow: 0 2px 20px #000; white-space: nowrap; }
+.dash-status { position: absolute; right: 32px; bottom: 95px; color: #7f8996; font-size: 9px; letter-spacing: .12em; }
+.dash-status span { color: #8fffc0; margin-left: 8px; }
+#pause-hint { position: absolute; right: 32px; top: 32px; color: rgba(200,207,217,.4); font-size: 8px; letter-spacing: .12em; }
+@media (max-width: 600px) {
+  .briefing { grid-template-columns: repeat(2, minmax(100px, 130px)); }
+  .hud-top { padding: 18px; gap: 16px; }
+  .hud-bottom { left: 18px; right: 18px; bottom: 18px; }
+  .health-block { width: 115px; }
+  .weapon-block { min-width: 115px; }
+  .score-block { display: none; }
+  .dash-status { right: 18px; bottom: 83px; }
+  #pause-hint { display: none; }
+}
+
+.weapon-block strong span { display: inline-block; color: #f1f3f6; font: 700 21px ui-monospace, SFMono-Regular, Menlo, monospace; margin-left: 10px; }
+.weapon-block strong span i { color: #818b98; font-size: 12px; font-style: normal; }
+.reload-status { display: block; margin-top: 3px; color: #858e9b; font: 8px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .12em; }
+#ammo-count.low-ammo { color: #ff6345; }
+
+/* Keep the pause/start screen clean: gameplay HUD is removed, not dimmed underneath. */
+.hud.hidden { display: none !important; }
+#overlay:not(.hidden) { z-index: 20; }
+#start-button { min-height: 58px; }
+.briefing div { min-height: 72px; display: flex; flex-direction: column; justify-content: center; }
+.weapon-block strong { white-space: nowrap; }
+@media (max-width: 600px) {
+  .overlay { gap: 22px; overflow-y: auto; }
+  .briefing { width: min(100%, 320px); }
+  h1 { font-size: clamp(58px, 16vw, 90px); }
+}
+
+/* Prominent magazine counter: visible at a glance during combat. */
+.weapon-block { min-width: 190px; }
+.weapon-block .weapon-name { display: block; }
+.weapon-name .reserve-symbol { color: #858e9b; font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; margin-left: 5px; vertical-align: middle; }
+.ammo-readout { display: flex; align-items: baseline; justify-content: flex-end; gap: 9px; margin-top: 3px; }
+.ammo-label { color: #858e9b; font: 8px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .15em; }
+.ammo-readout #ammo-count { color: #f1f3f6; font: 800 25px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: -.06em; }
+.ammo-readout #ammo-count i { color: #858e9b; font-size: 13px; font-style: normal; letter-spacing: 0; }
+.ammo-readout #ammo-count.low-ammo { color: #ff6345; }
+.reload-status { min-height: 10px; }
+@media (max-width: 600px) { .weapon-block { min-width: 115px; } .ammo-readout #ammo-count { font-size: 20px; } }
+
+/* UI-008 hard override: keep ammo readout visibly separated from weapon label. */
+.hud-bottom .weapon-block { position: relative; min-width: 205px; padding: 10px 12px 8px; background: rgba(5,7,10,.82); border: 1px solid rgba(255,86,54,.48); border-right: 3px solid #ff5636; }
+.hud-bottom .weapon-block .ammo-readout { display: flex !important; visibility: visible !important; opacity: 1 !important; min-height: 34px; margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,.14); }
+.hud-bottom .weapon-block .ammo-label { display: inline-block; color: #ff795e; font-size: 10px; }
+.hud-bottom .weapon-block .ammo-readout #ammo-count { display: inline-block; color: #fff !important; font: 800 28px/1 ui-monospace, SFMono-Regular, Menlo, monospace !important; letter-spacing: -.04em; }
+.hud-bottom .weapon-block .ammo-readout #ammo-count i { color: #aab2bd !important; font-size: 14px; font-style: normal; }
+.hud-bottom .weapon-block #reload-status { display: block !important; min-height: 11px; margin-top: 5px; color: #ff795e; font-size: 9px; }
+.hud-bottom .weapon-block .weapon-name { font-size: 28px; }
+@media (max-width: 600px) { .hud-bottom .weapon-block { min-width: 145px; padding: 7px; } .hud-bottom .weapon-block .ammo-readout #ammo-count { font-size: 22px !important; } }
+
+/* Compact weapon readout: keep the ammo legible without a boxed panel. */
+.hud-bottom .weapon-block {
+  min-width: 150px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.hud-bottom .weapon-block .ammo-readout {
+  min-height: 0;
+  margin-top: 2px;
+  padding-top: 0;
+  border: 0;
+  gap: 7px;
+}
+.hud-bottom .weapon-block .ammo-label { color: #858e9b; font-size: 8px; }
+.hud-bottom .weapon-block .ammo-readout #ammo-count { font-size: 24px !important; }
+.hud-bottom .weapon-block #reload-status {
+  min-height: 9px;
+  margin-top: 2px;
+  color: #737d89;
+  font-size: 7px;
+}
+@media (max-width: 600px) {
+  .hud-bottom .weapon-block { min-width: 115px; padding: 0; }
+  .hud-bottom .weapon-block .ammo-readout #ammo-count { font-size: 20px !important; }
+}
